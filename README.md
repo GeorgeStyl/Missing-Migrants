@@ -16,7 +16,7 @@ A C program that reads  a .csv text with info about missing migrants, till 2020,
 
 2. exit: Terminates the running code    
 
-3. newincident: Creates a new incident from command line and adds it to incident list  
+3. newincident <Location;Day;Month;Year;TotalMissing;WomenDeaths;MenDeaths;ChildredDeaths;CauseOfDeath;LocationDescription;Latitude;Longitude;URL> : Creates a new incident from command line and adds it to incident list  
 
 4. load <file path>: loads incident from specified csv file 
 
