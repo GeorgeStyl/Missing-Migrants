@@ -24,11 +24,11 @@ A C program that reads  a .csv text with info about missing migrants, till 2020,
 
 6. findl: Finds the location of the incident 
 
-7.  findc: Finds the cause of death of the incident 
+7. findc: Finds the cause of death of the incident 
 
 8. findr: Finds Region of the incident printa (valid) date: 
 
-9. Prints all incidents after the exact date given
+9. printa: Prints all incidents after the exact date given
 
 10. printb (valid) date: Prints all incidents untill the exact date given
 
