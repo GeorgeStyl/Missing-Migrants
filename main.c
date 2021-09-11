@@ -280,7 +280,7 @@ int main()
             continue;
         }
 
-        userInput[l-1] = 0;		// trwo ton teleytatoio xaratkrira \n
+        userInput[l-1] = 0;		// delets the last character (which is: \n)
 
         l_trim( r_trim(userInput) );
 
@@ -434,14 +434,6 @@ int main()
         free(parameter);
     }
 
-//    if(command != NULL) {
-//        free(command);
-//        command = NULL;
-//    }
-//    if(parameter != NULL) {
-//        free(parameter);
-//        parameter = NULL ;
-//    }
 
     if(userInput != NULL) {
         free(userInput);
@@ -466,7 +458,7 @@ void mypause() {
 
 
 
-/* ========= Diaxeirisi kombwn kai listas ================ */
+/* ========= node and lists management ================ */
 
 void freeNode( incident *Node ){
     if(Node->location != NULL) free(Node->location);
@@ -486,7 +478,7 @@ incident *delete_first_node (incident *last, int *node_counter)
         printf("\nList is empty\n");
         return NULL;
     }
-    if (last == last->next)//only one node
+    if (last == last->next) //only one node
     {
         printf("\n.........Is only one node..\n");
         freeNode(last);
@@ -558,7 +550,7 @@ incident * add_node (incident *last, incident *new_Inc) //creating list
     return new_Inc;
 }
 
-/* ========== genikes ==================================================== */
+/* ========== general ==================================================== */
 
 
 
@@ -568,7 +560,7 @@ size_t ::  if the compiler is 32 bit then  a typedef for unsigned int
 		   The size_t data type is never negative.
 ssize_t ::  [-1,0,size_t]
 
-i dilwsi twn parametrwn opws tis getline() oste na mporei na ginei alias sto define !
+The arguments are used exactly as getline(), parameters, in order to be aliased on define !
 */
 ssize_t read_line(char **line, size_t *bufsize, FILE *stream ) {
 
@@ -730,7 +722,7 @@ void parse_user_input( char * userInput, char ** command, char **parameter) {
     *parameter = NULL;
     size_t totlen = strlen(userInput);
 
-    char *copy_of_userInput;//we keep backup for userInput because strtok breaks the string
+    char *copy_of_userInput; //I keep backup for userInput because strtok breaks the string
     copy_of_userInput =  (char*) malloc( (totlen+1) * sizeof(char) );
     strcpy(copy_of_userInput, userInput);
     copy_of_userInput[totlen] = 0;
@@ -790,7 +782,7 @@ int str_split(char * line, char *fields[] , int fieldcount, char delim ){
     int startp = 0, endp = 0;
     while ( line[endp] != 0 )		// while not the end of the string ...
     {
-        if ( line[endp] == delim )		// eftasa se delimiter ;
+        if ( line[endp] == delim )		// found delimiter ;
         {
 
             n = endp - startp;
@@ -813,11 +805,11 @@ int str_split(char * line, char *fields[] , int fieldcount, char delim ){
             }
             field_count++;
 
-            if ( endp + 1 <=  l )		// An ending pointer+1  einai mesa sto string, didladi den exei perasei to telos toy
+            if ( endp + 1 <=  l )		// If ending pointer+1  is on the string, for example, it is not in the end of the string
             {
-                startp = endp + 1;		// metatopizw ton starting pointer   mia thesi meta apo to teleytaio delimiter pou brika
-                endp = startp;			// metatopizw kai ton ending pointer mia thesi meta apo to teleytaio delimiter pou brika
-                //  gia na arxisei xana to psazimo gia ton epomeno delimiter !
+                startp = endp + 1;		// shift the pointer by one position after the last found delimiter
+                endp = startp;			// shift the ending pointer by one position after the last found delimiter
+                                        // so the search for next delimiter may begin
             }
 
         }
@@ -843,12 +835,10 @@ int str_split(char * line, char *fields[] , int fieldcount, char delim ){
             }
             fields[field_count][i-startp]=0;
 
-            // printf("\n fields[%d]={%s}",field_count, fields[field_count]);
+
         }
         field_count++;
     }
-    // printf("\n  ---- str_split End ---------------------- \n");
-    // fflush(stdout);
 
     return field_count;
 
@@ -917,7 +907,7 @@ int csvlinetofields(char * line, char **fields, int fieldcount ){
     while ( line[endp] != 0 )		// while not the end of the string ...
     {
 
-        if ( line[endp] == ';' && in_double_quote == 0)		// eftasa se delimiter xwris na eimai anamesa se double-quote ;
+        if ( line[endp] == ';' && in_double_quote == 0)		// found a delimiter without being between double-quote
         {
             n = endp - startp;
 
@@ -934,17 +924,17 @@ int csvlinetofields(char * line, char **fields, int fieldcount ){
             }
 
             field_count++;
-            if ( endp + 1 <= l )		// An ending pointer+1  einai mesa sto string, diladi den exei perasei to telos toy
-            {
-                startp = endp + 1;		// metatopizw ton starting pointer   mia thesi meta apo to teleytaio delimiter pou brika
-                endp = startp;			// metatopizw kai ton ending pointer mia thesi meta apo to teleytaio delimiter pou brika
-                //  gia na arxisei xana to psazimo gia ton epomeno delimiter !
+            if ( endp + 1 <= l )		// If ending pointer+1  is on the string, for example, it is not in the end of the string
+                    {
+                startp = endp + 1;		// shift the pointer by one position after the last found delimiter
+                endp = startp;			// shift the ending pointer by one position after the last found delimiter
+                                        // so the search for next delimiter may begin
             }
 
         }
         else if ( line[endp] == '"') {
 
-            in_double_quote = !in_double_quote ;	// an oxi in_double_quote tote in_double_quote=true else in_double_quote=false
+            in_double_quote = !in_double_quote ;	// if (!in_double_quote):  tote in_double_quote=true else in_double_quote=false
 
             endp++;
         }
@@ -954,7 +944,8 @@ int csvlinetofields(char * line, char **fields, int fieldcount ){
 
     }
 
-    // teleiosan oi xaraktires tou string sto psaximo gia delimiter alla exoun meinei akataxwritoi, to teleytaio pedio tis grammis
+
+    // string's characters finished at the search of delimiter, but yet, there are unregistered, the last section of the line
     if (startp < endp)
     {
 
@@ -1172,17 +1163,17 @@ int isValidUrl( char *url ) {
     ufields[0]=NULL;  ufields[0]=0;
     ufields[1]=NULL;  ufields[1]=0;
     int nf = str_split(lurl, ufields , 2, ':' );
-    if(nf < 2) {								// den xoristike me ton `:` => lathos
+    if(nf < 2) {								// didnt seperated with `:` => wrong
         // printf(" **ERROR,  could not break url into protocol and rest !");
         isValid = 0;
         return isValid;
     }
 
-    if(strcmp(ufields[0],"http")!=0 && strcmp(ufields[0],"https")!=0 ) {	// den yparxei http or https before the :  => lathos
+    if(strcmp(ufields[0],"http")!=0 && strcmp(ufields[0],"https")!=0 ) {	// there is no http or https before the :  => wrong
         // printf(" **ERROR,  Bad protocol, not http or https !");
         isValid = 0;
     }
-    else if(ufields[1][0]!='/' && ufields[1][1]!='/' ) {	// den exei `//` meta apo to prwto `:` => lathos
+    else if(ufields[1][0]!='/' && ufields[1][1]!='/' ) {	// there is no `//` after the first`:` => wrong
         isValid = 0;
         // printf(" **ERROR,  Bad Fullpath (/ missing from start).");
     }
@@ -1194,14 +1185,14 @@ int isValidUrl( char *url ) {
         isValid = 0;
         printf(" **ERROR, Fullpath starts with space ! ");
     }
-    // replace ta prwta `//` me `keno` gia na xrisimopoisw to `/` ws delimiter gia ta epomena split me tin strtok
+    // replace the first `//` withe 'space' so I can use the `/` as a delimiter for the next  split within strtok
     ufields[1][0]= 32;  // space
     ufields[1][1]= 32; // space
 
-    // to `  archive.ph/gB4Vs` spaei me basei to `/` se `  archive.ph` kai `gB4Vs` kai an eixe kai allo `/` tha eixe kai 3o meros
+    // to `  archive.ph/gB4Vs` breaks `/` into `  archive.ph` and `gB4Vs` and if it had another `/` then it would have and a 3rd part
     char *dom = strtok(ufields[1],"/");
     if(dom){
-        // if space in dom ? .. blepe parakatw
+        // if space in dom ? .. look ahead
         size_t l = strlen(dom);
         char *domain = (char *)malloc( (l+1)*sizeof(char));
         strcpy( domain, dom);
@@ -1219,7 +1210,7 @@ int isValidUrl( char *url ) {
             isValid = 0;
         } else {
             char *domsuffix ; // = NULL ;
-            domsuffix = strrchr(domain,'.') ;	// psaxnw `.` apo to telos pros tin arxi
+            domsuffix = strrchr(domain,'.') ;	// searching for `.` from the end to start
             if(domsuffix == NULL){
                 // printf(" **ERROR,  Bad Domain Suffix NULL.");
                 isValid = 0;
@@ -1790,8 +1781,8 @@ void printab( incident *last, char *param, char direction, int maxlocname, int m
         }
         if( toPrint==1 ) {
             nfound++;
-            // sprintf(sdate,"%.2d/%.2d/%.4d",temp->reported.day,temp->reported.month,temp->reported.year);
-            // printf("\n node_counter=%d, sdate=%s, temp=%p, temp->next=%p.",
+            //  sprintf(sdate,"%.2d/%.2d/%.4d",temp->reported.day,temp->reported.month,temp->reported.year);
+            //  printf("\n node_counter=%d, sdate=%s, temp=%p, temp->next=%p.",
             //	temp->node_counter,
             //	sdate,
             //	temp,
@@ -1800,7 +1791,7 @@ void printab( incident *last, char *param, char direction, int maxlocname, int m
         }
         temp = temp->next;
 
-    }while(temp != last->next);//ews otou ftasw ston 1o xana
+    }while(temp != last->next);//until I reach the first again
 
     if( direction == 'A' ) printf("\n === Incident List End Found %d of %d On or After date %s ========",nfound,totals,param);
     else printf("\n === Incident List End Found %d of %d On or Before date %s ========",nfound,totals,param);
@@ -1982,7 +1973,7 @@ void print_list (incident *last, int lastcount)
         return;
     }
 
-    incident *tmp = last->next;	// ksekinaw apo ton 1o
+    incident *tmp = last->next;	// starting from the 1st
     do{
 
         printf("\n %.6d, %s, %d/%d/%d (address=%p, next=%p)",
@@ -1995,7 +1986,7 @@ void print_list (incident *last, int lastcount)
         if(lastcount == tmp->node_counter) break;
         tmp = tmp->next;
 
-    }while(tmp != last->next); //ews otou ftasw ston 1o
+    }while(tmp != last->next); // until I end up on the 1st
 
     printf("\n ---- Printing List End ------\n");
 
@@ -2017,7 +2008,7 @@ void print_top (incident *last, char *param)
     }
 
 
-    incident *tmp = last->next;	// ksekinaw apo ton 1o
+    incident *tmp = last->next;	// starting from the first
     do{
 
         printf("\n %.6d, %s, %d/%d/%d (address=%p, next=%p)",
@@ -2030,7 +2021,7 @@ void print_top (incident *last, char *param)
         if(lastcount == tmp->node_counter) break;
         tmp = tmp->next;
 
-    }while(tmp != last->next); //ews otou ftasw ston 1o
+    }while(tmp != last->next); // till I reach the 1st
 
     printf("\n ---- Printing List End ------\n");
 
@@ -2052,7 +2043,7 @@ void print_node (incident *last, char *param)
         printf("\n *** ERROR Bad Node Number given. \n");
         return;
     }
-    incident *tmp = last->next;//ksekinaw apo ton 1o
+    incident *tmp = last->next;// start from the 1st
     do{
         if(nodecount == tmp->node_counter) {
             printf("\n cntr: %d",tmp->node_counter);
@@ -2074,7 +2065,7 @@ void print_node (incident *last, char *param)
         }
         tmp = tmp->next;
 
-    }while(tmp != last->next);//ews otou ftasw sto 1o xana
+    }while(tmp != last->next);// until I reach the 1st
 
     printf("\n ---- Dump Node End ------\n");
 }
