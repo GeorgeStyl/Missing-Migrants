@@ -1,5 +1,5 @@
 # Missing-Migrants
-A C program that reads  a .csv text with info about missing migrants, till 2020, and prints date, location, coordinates, the number of men, women and children, the cause of missing and the URL from which extracted the information.
+A university C project that reads  a .csv text with info about missing migrants, till 2020, and prints date, location, coordinates, the number of men, women and children, the cause of missing and the URL from which extracted the information.
 
  The code is compatible with Windows, Linux and MAC. In order to do so, a copy of the original getline() had to be made so the code would run on another OS except Linux which does not support getline(). Windows for example. This issue has been resolved by defining "getline(x,y,z)"  to "read_line(x,y,z)" if the OS is one of the them.
  
